@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Locker Room – Mental Fitness for Athletes</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0b0c10; --surface:#13151c; --surface2:#1a1d28;
+    --border:rgba(255,255,255,0.07);
+    --green:#00e87a; --green-dim:rgba(0,232,122,0.12);
+    --gold:#f5c542;  --gold-dim:rgba(245,197,66,0.12);
+    --red:#ff4560;   --blue:#38bdf8;
+    --text:#f0f2f5;  --muted:#6b7280;
+    --font-display:'Bebas Neue',sans-serif;
+    --font-body:'Sora',sans-serif;
+    --nav-h:72px; --radius:16px;
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+ body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  padding-bottom: calc(var(--nav-h) + 24px);
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto; /* ADD THIS */
+}
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.35}
+  ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-track{background:var(--bg)} ::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:2px}
+  .page { display: none }
+.page.active { display: block; animation: fadeUp .35s ease }
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  .wrap{max-width:900px;margin:0 auto;padding:24px 20px}
+  .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:rgba(13,15,22,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;align-items:center;z-index:500}
+  .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;border:none;background:none;color:var(--muted);transition:color .2s;padding:8px 0;position:relative}
+  .nav-item svg{width:22px;height:22px} .nav-item span{font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+  .nav-item.active{color:var(--green)}
+  .nav-item.active::before{content:'';position:absolute;top:-1px;width:40px;height:2px;background:var(--green);border-radius:0 0 4px 4px;box-shadow:0 0 12px var(--green)}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px;position:relative;overflow:hidden}
+  .card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent)}
+  .section-head{display:flex;align-items:flex-end;gap:12px;margin-bottom:24px}
+  .section-head .icon-badge{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+  .section-head h2{font-family:var(--font-display);font-size:clamp(28px,6vw,40px);line-height:1;letter-spacing:.04em}
+  .section-head p{font-size:13px;color:var(--muted);margin-top:4px;font-weight:400}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border-radius:10px;border:none;font-family:var(--font-body);font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
+  .btn-green{background:var(--green);color:#000} .btn-green:hover{filter:brightness(1.1);transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,232,122,.3)}
+  .btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border)} .btn-ghost:hover{background:var(--surface);border-color:rgba(255,255,255,.15)}
+  .home-hero{position:relative;padding:40px 20px 32px;text-align:center;overflow:hidden}
+  .home-hero .bg-orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+  .home-hero .orb1{width:380px;height:380px;background:rgba(0,232,122,.08);top:-120px;left:50%;transform:translateX(-50%)}
+  .home-hero .orb2{width:260px;height:260px;background:rgba(245,197,66,.06);bottom:-80px;right:-40px}
+  .home-hero .pill{display:inline-flex;align-items:center;gap:6px;background:var(--green-dim);border:1px solid rgba(0,232,122,.25);color:var(--green);font-size:12px;font-weight:600;padding:6px 14px;border-radius:100px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px;animation:float 3s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+  .home-hero h1{font-family:var(--font-display);font-size:clamp(38px,10vw,72px);letter-spacing:.05em;line-height:.95;margin-bottom:14px}
+  .home-hero h1 .accent{color:var(--green)}
+  .home-hero p{color:var(--muted);font-size:15px;max-width:440px;margin:0 auto 32px;line-height:1.6}
+  .home-tools{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:900px;margin:0 auto;padding:0 20px 8px}
+  .tool-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px 20px;cursor:pointer;transition:all .25s;text-align:left;position:relative;overflow:hidden}
+  .tool-card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.14)}
+  .tool-card .tc-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px}
+  .tool-card h3{font-family:var(--font-display);font-size:22px;letter-spacing:.04em;margin-bottom:6px}
+  .tool-card p{font-size:12px;color:var(--muted);line-height:1.5}
+  .tool-card .arrow{position:absolute;bottom:18px;right:18px;font-size:18px;color:var(--muted);transition:all .2s}
+  .tool-card:hover .arrow{color:var(--text);transform:translate(2px,-2px)}
+  .tc-green .tc-icon{background:var(--green-dim)} .tc-gold .tc-icon{background:var(--gold-dim)}
+  .tc-blue .tc-icon{background:rgba(56,189,248,.1)} .tc-red .tc-icon{background:rgba(255,69,96,.1)}
+  .tc-purple .tc-icon{background:rgba(167,139,250,.1)}
+  .prompt-card{background:linear-gradient(135deg,rgba(245,197,66,.12),rgba(245,197,66,.04));border:1px solid rgba(245,197,66,.25);border-radius:var(--radius);padding:28px;margin-bottom:16px;text-align:center}
+  .prompt-card .prompt-emoji{font-size:52px;margin-bottom:14px;display:block}
+  .prompt-card .prompt-q{font-family:var(--font-display);font-size:22px;letter-spacing:.03em;line-height:1.2;color:#fff}
+  .journal-textarea{width:100%;min-height:200px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;color:var(--text);font-family:var(--font-body);font-size:15px;line-height:1.7;resize:vertical;transition:border-color .2s}
+  .journal-textarea:focus{outline:none;border-color:rgba(0,232,122,.4)} .journal-textarea::placeholder{color:var(--muted)}
+  .journal-actions{display:flex;gap:10px;margin-top:14px}
+  .wc{font-size:12px;color:var(--muted);text-align:right;margin-top:6px}
+  .entry-item{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:10px;cursor:pointer;transition:border-color .2s}
+  .entry-item:hover{border-color:rgba(255,255,255,.15)}
+  .entry-item .ei-date{font-size:11px;color:var(--muted);margin-bottom:6px}
+  .entry-item .ei-text{font-size:14px;color:#c9cdd6;line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .breathe-center{text-align:center;padding:20px 0 30px}
+  .breath-ring-wrap{position:relative;width:260px;height:260px;margin:0 auto 28px}
+  .breath-ring-wrap svg{position:absolute;inset:0;width:100%;height:100%}
+  .breath-circle{width:200px;height:200px;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(0,232,122,.5),rgba(0,180,90,.2));border:2px solid rgba(0,232,122,.3);display:flex;align-items:center;justify-content:center;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(1);transition:transform 4s cubic-bezier(.4,0,.2,1),box-shadow 4s ease;box-shadow:0 0 30px rgba(0,232,122,.2),inset 0 0 40px rgba(0,232,122,.08)}
+  .breath-circle.inhale{transform:translate(-50%,-50%) scale(1.28);box-shadow:0 0 60px rgba(0,232,122,.35),inset 0 0 60px rgba(0,232,122,.15)}
+  .breath-circle.exhale{transform:translate(-50%,-50%) scale(.76);box-shadow:0 0 12px rgba(0,232,122,.1),inset 0 0 20px rgba(0,232,122,.05)}
+  .breath-circle.hold{transform:translate(-50%,-50%) scale(1)}
+  .breath-label{font-family:var(--font-display);font-size:24px;letter-spacing:.1em;color:#fff}
+  .breath-count{font-size:13px;color:var(--green);margin-top:4px;font-weight:600}
+  .ring-svg circle{fill:none;stroke:rgba(0,232,122,.15);stroke-width:2;stroke-dasharray:754;stroke-dashoffset:754;stroke-linecap:round;transform-origin:center;transform:rotate(-90deg);transition:stroke-dashoffset 1s linear}
+  .ring-svg circle.active{stroke:var(--green)}
+  .breath-techniques{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
+  .tech-btn{padding:10px 18px;border:1.5px solid var(--border);border-radius:30px;background:var(--surface2);color:var(--muted);font-family:var(--font-body);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+  .tech-btn.selected,.tech-btn:hover{border-color:var(--green);color:var(--green);background:var(--green-dim)}
+  .breath-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}
+  .stat-box{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center}
+  .stat-box .sv{font-family:var(--font-display);font-size:28px;color:var(--green)}
+  .stat-box .sl{font-size:11px;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.06em}
+  .now-playing{background:linear-gradient(135deg,rgba(56,189,248,.1),rgba(167,139,250,.08));border:1px solid rgba(56,189,248,.2);border-radius:var(--radius);padding:20px 24px;margin-bottom:20px;display:none;align-items:center;gap:16px}
+  .now-playing.visible{display:flex}
+  .np-icon{font-size:32px} .np-info{flex:1}
+  .np-title{font-family:var(--font-display);font-size:20px;letter-spacing:.04em}
+  .np-time{font-size:13px;color:var(--blue);font-weight:600;margin-top:2px}
+  .np-wave{display:flex;align-items:center;gap:3px;height:28px}
+  .np-wave span{display:block;width:3px;background:var(--blue);border-radius:2px;animation:wave-bar 1.2s ease-in-out infinite;opacity:.8}
+  .np-wave span:nth-child(1){animation-delay:0s} .np-wave span:nth-child(2){animation-delay:.1s}
+  .np-wave span:nth-child(3){animation-delay:.2s} .np-wave span:nth-child(4){animation-delay:.3s}
+  .np-wave span:nth-child(5){animation-delay:.4s} .np-wave span:nth-child(6){animation-delay:.15s}
+  .np-wave span:nth-child(7){animation-delay:.25s}
+  @keyframes wave-bar{0%,100%{height:4px}50%{height:22px}}
+  .np-stop{width:38px;height:38px;border-radius:50%;background:rgba(255,69,96,.15);border:1px solid rgba(255,69,96,.3);color:var(--red);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+  .np-stop:hover{background:rgba(255,69,96,.3)}
+  .slider-wrap{margin-bottom:20px}
+  .slider-label{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:8px;font-weight:500}
+  .slider-label strong{color:var(--text)}
+  .range-slider{-webkit-appearance:none;width:100%;height:4px;background:var(--surface2);border-radius:2px;outline:none}
+  .range-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--green);cursor:pointer;box-shadow:0 0 8px rgba(0,232,122,.4);transition:transform .15s}
+  .range-slider::-webkit-slider-thumb:hover{transform:scale(1.2)}
+  .cat-label{font-family:var(--font-display);font-size:16px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin:22px 0 12px;padding-left:10px;border-left:3px solid var(--green)}
+  .sounds-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:8px}
+  .sound-tile{background:var(--surface2);border:1.5px solid var(--border);border-radius:14px;padding:18px 14px;text-align:center;cursor:pointer;transition:all .22s;position:relative;overflow:hidden}
+  .sound-tile:hover{border-color:rgba(255,255,255,.18);transform:translateY(-2px)}
+  .sound-tile.playing{border-color:var(--green);background:var(--green-dim);box-shadow:0 4px 20px rgba(0,232,122,.2)}
+  .sound-tile.playing::after{content:'';position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:28px;height:6px;background:repeating-linear-gradient(90deg,var(--green) 0px,var(--green) 3px,transparent 3px,transparent 6px);border-radius:2px;animation:tile-pulse .8s ease-in-out infinite alternate}
+  @keyframes tile-pulse{from{opacity:.4}to{opacity:1}}
+  .sound-tile .st-icon{font-size:28px;margin-bottom:8px;display:block}
+  .sound-tile .st-name{font-size:13px;font-weight:600}
+  .sound-tile .st-desc{font-size:11px;color:var(--muted);margin-top:3px}
+  .sound-tile.playing .st-name{color:var(--green)}
+  .filter-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+  .fpill{padding:7px 16px;border-radius:100px;border:1.5px solid var(--border);background:var(--surface2);color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;letter-spacing:.04em;text-transform:uppercase}
+  .fpill.active,.fpill:hover{background:var(--green-dim);border-color:var(--green);color:var(--green)}
+  .playbook-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+  .pb-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:all .25s}
+  .pb-card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.12)}
+  .pb-card.open .pb-body{display:block}
+  .pb-card.open .pb-chevron{transform:rotate(180deg)}
+  .pb-head{padding:18px 20px;display:flex;align-items:center;gap:14px}
+  .pb-emoji{font-size:28px;flex-shrink:0}
+  .pb-meta{flex:1}
+  .pb-cat{display:inline-block;background:var(--green-dim);color:var(--green);font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px}
+  .pb-title{font-weight:700;font-size:15px;line-height:1.3}
+  .pb-chevron{color:var(--muted);font-size:18px;transition:transform .25s;flex-shrink:0}
+  .pb-body{display:none;padding:0 20px 20px;border-top:1px solid var(--border)}
+  .pb-body p{font-size:14px;color:#9ca3af;line-height:1.7;margin-top:14px}
+  .pb-techniques{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+  .pb-technique{background:var(--surface2);border-radius:10px;padding:12px 14px}
+  .pb-technique .pt-name{font-size:13px;font-weight:700;color:var(--green);margin-bottom:3px}
+  .pb-technique .pt-desc{font-size:12px;color:var(--muted);line-height:1.5}
+  .pb-tag{display:inline-flex;align-items:center;gap:4px;background:rgba(0,232,122,.08);border:1px solid rgba(0,232,122,.2);color:var(--green);font-size:11px;font-weight:600;padding:4px 10px;border-radius:100px;margin-top:12px;margin-right:6px}
+  .vent-center{text-align:center}
+  .mic-btn{width:110px;height:110px;border-radius:50%;border:none;cursor:pointer;margin:28px auto;display:flex;align-items:center;justify-content:center;font-size:2.6rem;background:radial-gradient(circle at 35% 35%,#ff6b7a,#dc2626);box-shadow:0 8px 30px rgba(220,38,38,.45);transition:all .25s}
+  .mic-btn:hover{transform:scale(1.06);box-shadow:0 12px 40px rgba(220,38,38,.6)}
+  .mic-btn.recording{background:radial-gradient(circle at 35% 35%,#34d399,#059669);box-shadow:0 8px 30px rgba(5,150,105,.5);animation:pulse-mic 1.5s ease-in-out infinite}
+  @keyframes pulse-mic{0%,100%{transform:scale(1);box-shadow:0 8px 30px rgba(5,150,105,.5)}50%{transform:scale(1.07);box-shadow:0 12px 50px rgba(5,150,105,.75)}}
+  .rec-status{font-family:var(--font-display);font-size:28px;letter-spacing:.1em}
+  .rec-timer{font-size:42px;font-weight:700;color:var(--red);font-variant-numeric:tabular-nums;margin-top:4px}
+  .rec-timer.go{color:var(--green)}
+  #vent-canvas{display:block;width:100%;max-width:340px;height:60px;margin:0 auto 12px;border-radius:10px;opacity:0;transition:opacity .4s}
+  #vent-canvas.active{opacity:1}
+  .sentiment-card{background:linear-gradient(135deg,rgba(56,189,248,.1),rgba(99,102,241,.08));border:1px solid rgba(56,189,248,.25);border-radius:var(--radius);padding:24px;margin-top:20px;animation:fadeUp .4s ease}
+  .sentiment-card .s-emoji{font-size:56px;display:block;text-align:center;margin-bottom:10px}
+  .sentiment-card .s-mood{font-family:var(--font-display);font-size:32px;text-align:center;letter-spacing:.06em;margin-bottom:12px}
+  .sentiment-card .s-tip{font-size:14px;color:#93c5fd;line-height:1.6;text-align:center}
+  .sentiment-card .s-note{font-size:12px;color:var(--muted);text-align:center;margin-top:14px}
+  .how-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+  .how-list li{display:flex;align-items:center;gap:12px;font-size:14px;color:#9ca3af;line-height:1.5}
+  .how-list li .dot{width:28px;height:28px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--green);flex-shrink:0}
+  .label{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700;margin-bottom:10px}
+  .hidden{display:none!important}
+  @media(max-width:480px){.home-tools{grid-template-columns:1fr 1fr}.sounds-grid{grid-template-columns:repeat(2,1fr)}.playbook-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="page-home" class="page active">
+  <div class="home-hero">
+    <div class="bg-orb orb1"></div><div class="bg-orb orb2"></div>
+    <div class="pill">&#10022; Mental Fitness Platform</div>
+    <h1>THE<br><span class="accent">LOCKER</span><br>ROOM</h1>
+    <p>A private space for athletes to train their mind as hard as their body.</p>
+  </div>
+  <div class="home-tools">
+    <div class="tool-card tc-gold" onclick="nav('journal')"><div class="tc-icon">📝</div><h3>Human Journal</h3><p>Reflect on life beyond the scoreboard</p><span class="arrow">↗</span></div>
+    <div class="tool-card tc-green" onclick="nav('breathe')"><div class="tc-icon">🫁</div><h3>Breathe</h3><p>Guided breathing with haptic feedback</p><span class="arrow">↗</span></div>
+    <div class="tool-card tc-blue" onclick="nav('meditate')"><div class="tc-icon">🎵</div><h3>Meditate</h3><p>Pre-game soundscapes &amp; focus audio</p><span class="arrow">↗</span></div>
+    <div class="tool-card tc-purple" onclick="nav('learn')"><div class="tc-icon">🧠</div><h3>Playbook</h3><p>Sports psychology tactics, on demand</p><span class="arrow">↗</span></div>
+    <div class="tool-card tc-red" style="grid-column:1/-1" onclick="nav('vent')"><div class="tc-icon">🎤</div><h3>Voice Venting</h3><p>Speak your mind — private, analysed &amp; deleted instantly</p><span class="arrow">↗</span></div>
+  </div>
+  <div style="max-width:900px;margin:0 auto;padding:20px 20px 0">
+    <div class="card" style="background:linear-gradient(135deg,rgba(0,232,122,.08),rgba(0,232,122,.03));border-color:rgba(0,232,122,.2)">
+      <div style="display:flex;align-items:center;gap:14px"><span style="font-size:30px">🔒</span><div><div style="font-weight:700;margin-bottom:4px">Your privacy is sacred.</div><div style="font-size:13px;color:var(--muted);line-height:1.5">All journal entries are stored locally on your device. Voice recordings are deleted immediately after analysis. Nothing leaves your control.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<div id="page-journal" class="page">
+  <div class="wrap">
+    <div class="section-head"><div class="icon-badge" style="background:var(--gold-dim)">📝</div><div><h2>Human Journal</h2><p>Reflect beyond the field</p></div></div>
+    <div class="prompt-card"><span class="prompt-emoji" id="journal-emoji">🌟</span><div class="prompt-q" id="journal-question">Loading prompt...</div></div>
+    <div class="card">
+      <div class="label">Your Response</div>
+      <textarea class="journal-textarea" id="journal-text" placeholder="Start writing..." oninput="updateWordCount()"></textarea>
+      <div class="wc"><span id="word-count">0</span> words</div>
+      <div class="journal-actions">
+        <button class="btn btn-green" onclick="saveJournal()">Save Entry ✓</button>
+        <button class="btn btn-ghost" onclick="newPrompt()">New Prompt ↻</button>
+      </div>
+    </div>
+    <div class="label" style="margin-top:4px">Past Entries</div>
+    <div id="past-entries"></div>
+  </div>
+</div>
+
+<div id="page-breathe" class="page">
+  <div class="wrap">
+    <div class="section-head"><div class="icon-badge" style="background:rgba(0,232,122,.12)">🫁</div><div><h2>Breathe to Perform</h2><p>Calm your nervous system on command</p></div></div>
+    <div class="breathe-center">
+      <div class="breath-ring-wrap">
+        <svg class="ring-svg" viewBox="0 0 260 260"><circle id="progress-ring" cx="130" cy="130" r="120"></circle></svg>
+        <div class="breath-circle" id="breath-circle"><div><div class="breath-label" id="breath-label">READY</div><div class="breath-count" id="breath-count">—</div></div></div>
+      </div>
+      <div class="breath-techniques">
+        <button class="tech-btn" onclick="selectTech(this,'box')">Box 4-4-4-4</button>
+        <button class="tech-btn" onclick="selectTech(this,'478')">4-7-8</button>
+        <button class="tech-btn" onclick="selectTech(this,'calm')">Calm 4-6</button>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:center">
+        <button class="btn btn-green" onclick="startBreathing()">Start Session</button>
+        <button class="btn btn-ghost" onclick="stopBreathing()">Stop</button>
+      </div>
+    </div>
+    <div class="breath-stat-row">
+      <div class="stat-box"><div class="sv" id="stat-cycles">0</div><div class="sl">Cycles</div></div>
+      <div class="stat-box"><div class="sv" id="stat-mins">0:00</div><div class="sl">Time</div></div>
+      <div class="stat-box"><div class="sv" id="stat-streak">—</div><div class="sl">Pattern</div></div>
+    </div>
+  </div>
+</div>
+
+<div id="page-meditate" class="page">
+  <div class="wrap">
+    <div class="section-head"><div class="icon-badge" style="background:rgba(56,189,248,.1)">🎵</div><div><h2>Pre-Game Meditation</h2><p>Ambient sounds to lock in focus</p></div></div>
+    <div class="now-playing" id="now-playing">
+      <div class="np-icon" id="np-icon">🌧️</div>
+      <div class="np-info"><div class="np-title" id="np-name">Rain</div><div class="np-time" id="np-timer">—</div></div>
+      <div class="np-wave"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <button class="np-stop" onclick="stopSound()">✕</button>
+    </div>
+    <div class="card">
+      <div class="slider-wrap">
+        <div class="slider-label"><span>Volume</span><strong id="vol-val">70%</strong></div>
+        <input type="range" class="range-slider" min="0" max="100" value="70" id="vol-slider" oninput="updateVolume(this.value)">
+      </div>
+      <div class="slider-wrap" style="margin-bottom:0">
+        <div class="slider-label"><span>Duration</span><strong id="dur-val">10 min</strong></div>
+        <input type="range" class="range-slider" min="1" max="60" value="10" id="dur-slider" oninput="updateDuration(this.value)">
+      </div>
+    </div>
+    <div id="sounds-container"></div>
+  </div>
+</div>
+
+<div id="page-learn" class="page">
+  <div class="wrap">
+    <div class="section-head"><div class="icon-badge" style="background:rgba(167,139,250,.12)">🧠</div><div><h2>Playbook</h2><p>Sports psychology — in your pocket</p></div></div>
+    <div class="filter-pills">
+      <button class="fpill active" onclick="filterPlaybook('All',this)">All</button>
+      <button class="fpill" onclick="filterPlaybook('Performance',this)">Performance</button>
+      <button class="fpill" onclick="filterPlaybook('Mental Health',this)">Mental Health</button>
+      <button class="fpill" onclick="filterPlaybook('Mindset',this)">Mindset</button>
+    </div>
+    <div class="playbook-grid" id="playbook-grid"></div>
+  </div>
+</div>
+
+<div id="page-vent" class="page">
+  <div class="wrap">
+    <div class="section-head"><div class="icon-badge" style="background:rgba(255,69,96,.1)">🎤</div><div><h2>Voice Venting</h2><p>Speak freely — we keep nothing</p></div></div>
+    <div class="card vent-center">
+      <p style="color:var(--muted);font-size:14px;max-width:360px;margin:0 auto;line-height:1.7">Hold the mic and speak for up to 2 minutes. Your audio is immediately analysed for mood then permanently deleted.</p>
+      <button class="mic-btn" id="mic-btn" onclick="toggleRecording()">🎤</button>
+      <canvas id="vent-canvas" width="340" height="60"></canvas>
+      <div id="rec-status-wrap" class="hidden">
+        <div class="rec-status">Recording…</div>
+        <div class="rec-timer go" id="rec-timer">2:00</div>
+      </div>
+      <div id="sentiment-out"></div>
+    </div>
+    <div class="card">
+      <div class="label">How it works</div>
+      <ul class="how-list">
+        <li><span class="dot">1</span>Press the mic button and speak freely</li>
+        <li><span class="dot">2</span>Your voice is analysed locally for sentiment</li>
+        <li><span class="dot">3</span>The audio file is instantly and permanently deleted</li>
+        <li><span class="dot">4</span>Only a mood summary is saved — nothing more</li>
+        <li><span class="dot">5</span>Use the mood tip to guide your next step</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <button class="nav-item active" data-page="home" onclick="nav('home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Home</span>
+  </button>
+  <button class="nav-item" data-page="journal" onclick="nav('journal')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span>Journal</span>
+  </button>
+  <button class="nav-item" data-page="breathe" onclick="nav('breathe')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8a5 5 0 010 10H7a5 5 0 010-10"/><path d="M12 3v5"/><path d="M9 6l3-3 3 3"/></svg><span>Breathe</span>
+  </button>
+  <button class="nav-item" data-page="meditate" onclick="nav('meditate')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><span>Meditate</span>
+  </button>
+  <button class="nav-item" data-page="learn" onclick="nav('learn')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg><span>Playbook</span>
+  </button>
+  <button class="nav-item" data-page="vent" onclick="nav('vent')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><span>Vent</span>
+  </button>
+</nav>
+
+<script>
+const prompts=[
+  {emoji:"🌟",q:"What makes you feel most alive outside of your sport?"},
+  {emoji:"❤️",q:"Who are three people you're grateful for today, and why?"},
+  {emoji:"🎨",q:"If you couldn't be an athlete, what would you pursue?"},
+  {emoji:"🏔️",q:"Describe a challenge you've overcome that had nothing to do with athletics."},
+  {emoji:"💭",q:"What's something you've been thinking about lately that isn't sports-related?"},
+  {emoji:"🌈",q:"What brings you joy that has nothing to do with winning?"},
+  {emoji:"📚",q:"What's the last book, movie or show that really moved you?"},
+  {emoji:"🤝",q:"How do you want to be remembered beyond your athletic achievements?"},
+  {emoji:"🌙",q:"What does your ideal day off look like — no training allowed?"},
+  {emoji:"💡",q:"What's a belief about yourself you've been challenging recently?"},
+];
+
+const soundCategories=[
+  {label:"🌿  Nature",sounds:[
+    {name:"Rain",icon:"🌧️",synth:"rain"},
+    {name:"Ocean",icon:"🌊",synth:"ocean"},
+    {name:"Forest",icon:"🌲",synth:"forest"},
+    {name:"Thunder",icon:"⛈️",synth:"thunder"},
+  ]},
+  {label:"📡  Ambient",sounds:[
+    {name:"White Noise",icon:"📻",synth:"white"},
+    {name:"Brown Noise",icon:"🌫️",synth:"brown"},
+    {name:"Pink Noise",icon:"💗",synth:"pink"},
+    {name:"Wind Chimes",icon:"🎐",synth:"chimes"},
+  ]},
+  {label:"🧠  Focus",sounds:[
+    {name:"Binaural",icon:"🧠",synth:"binaural"},
+    {name:"Tibetan Bowl",icon:"🔔",synth:"bowl"},
+    {name:"Om Hum",icon:"🕉️",synth:"om"},
+    {name:"Deep Focus",icon:"🎯",synth:"deepfocus"},
+  ]},
+];
+
+const playbookCards=[
+  {cat:"Performance",emoji:"🎯",title:"Visualization",
+   summary:"Mental rehearsal primes your motor system as if you physically practiced. Used by every elite athlete.",
+   techniques:[
+     {name:"PETTLEP Model",desc:"Match Physical, Environment, Task, Timing, Learning, Emotion and Perspective to your real performance. The closer the match, the stronger the transfer."},
+     {name:"First-Person Vivid Replay",desc:"Eyes closed. Run your sport action in first-person with full sensory detail — crowd noise, physical feel, smells. 5 minutes daily before bed."},
+     {name:"Outcome + Process Split",desc:"Visualise the perfect process (technique, decisions) AND the outcome (scoring, winning). Never just one — you need both to fire the full neural pathway."},
+   ],tags:["Pre-game","Daily practice"]},
+  {cat:"Performance",emoji:"⚡",title:"Arousal Control",
+   summary:"Dial your nervous system up or down to hit your personal performance zone — every athlete's zone is different.",
+   techniques:[
+     {name:"Psych-Up Routine",desc:"Need more energy: power posing 2 min, up-tempo music, sharp self-talk ('attack', 'explosive'). Creates adrenaline without crossing into anxiety."},
+     {name:"Psych-Down Routine",desc:"Over-aroused: box breathing (4-4-4-4), progressive muscle relaxation, slow music, rational self-talk ('I'm ready', 'I've done this before')."},
+     {name:"Activation Profiling",desc:"Track your pre-game anxiety score (1–10) vs your performance rating after each game. Over 6–8 weeks your optimal window becomes clear."},
+   ],tags:["Pre-game","Competition"]},
+  {cat:"Performance",emoji:"🔁",title:"Pre-Performance Routines",
+   summary:"Consistent routines block distraction and trigger your performance state on command — automatically.",
+   techniques:[
+     {name:"3-Step Anchor",desc:"3 actions you always do right before performing (e.g. deep breath → keyword → physical trigger). Repeat every single time until it fires automatically."},
+     {name:"Process Cue Words",desc:"1–3 single words that anchor your focus (e.g. 'smooth', 'explode', 'see-it'). Say them in sequence. Practise them in training until they're reflex."},
+     {name:"Distraction Protocol",desc:"List every distraction that typically derails you. For each one, write your planned response. Rehearse it mentally so it's ready when it hits."},
+   ],tags:["Pre-game","Focus"]},
+  {cat:"Mindset",emoji:"💬",title:"Self-Talk",
+   summary:"Your inner voice is a trainable skill — not a personality trait. Elite athletes treat it like a muscle.",
+   techniques:[
+     {name:"Instructional vs Motivational",desc:"Use instructional talk for technical skills ('eyes up', 'drive through'). Use motivational talk for effort ('I've got this', 'keep going'). Match the type to the moment."},
+     {name:"Thought Stopping",desc:"When a negative thought intrudes: physically snap your fingers, say 'STOP' internally, then immediately replace with your cue word. Repeat in every training session."},
+     {name:"Third-Person Reframe",desc:"Address yourself by name under pressure. Research shows 'You can handle this, Alex' outperforms 'I can handle this' for emotional regulation and performance."},
+   ],tags:["Mindset","Daily practice"]},
+  {cat:"Mindset",emoji:"🎯",title:"Goal Setting",
+   summary:"Athletes who set goals correctly outperform those who just try their best — by a statistically significant margin.",
+   techniques:[
+     {name:"Three-Goal Stack",desc:"Set one outcome goal (win), one performance goal (80% first serve), one process goal (stay low on every return). Focus daily on the process goal only."},
+     {name:"If-Then Planning",desc:"'If X happens, then I will do Y.' E.g. 'If I make an error, then I will reset with a breath and my cue word.' Pre-programs your adversity response."},
+     {name:"Weekly Review",desc:"Every Sunday: rate last week's process goals 1–10, write one adjustment. This keeps goals alive, evidence-based and improving."},
+   ],tags:["Mindset","Long-term"]},
+  {cat:"Mental Health",emoji:"😤",title:"Dealing with Failure",
+   summary:"Setbacks are information. Elite athletes process them faster than anyone — here's the system.",
+   techniques:[
+     {name:"The 24-Hour Rule",desc:"Give yourself 24 hours to feel the loss fully. Then write: what happened, what I can control, one adjustment. Move forward with data — not shame."},
+     {name:"Growth Attribution",desc:"Attribute failure to effort and strategy (changeable) — not talent or luck (fixed). 'I didn't execute my game plan' not 'I'm just not good enough'."},
+     {name:"Film Review Mindset",desc:"Watch your worst performances like a coach, not a critic. Ask: what would I tell an athlete I care about who did this? Then apply that to yourself."},
+   ],tags:["Resilience","Mental Health"]},
+  {cat:"Mental Health",emoji:"😰",title:"Managing Anxiety",
+   summary:"Competition anxiety is energy. The goal is direction, not elimination.",
+   techniques:[
+     {name:"Reappraisal",desc:"Replace 'I'm anxious' with 'I'm excited'. Both states produce identical physiology — but excitement is approach-oriented. Harvard research shows this directly improves performance."},
+     {name:"Acceptance Script",desc:"'I notice I'm nervous. That's normal. My body is ready. I've prepared for this.' Say it aloud. Don't fight the feeling — label and observe it."},
+     {name:"Somatic Anchoring",desc:"Plant both feet, press them into the ground, take one slow breath. The physical grounding interrupts the anxiety spiral and reconnects you to your body."},
+   ],tags:["Mental Health","Pre-game"]},
+  {cat:"Mental Health",emoji:"🛡️",title:"Identity & Burnout",
+   summary:"Athletes who are only athletes are the most fragile. Build a broader identity before you need it.",
+   techniques:[
+     {name:"Identity Wheel",desc:"Draw 8 segments: athlete, friend, family member, learner, creator, etc. Rate fulfilment 1–5 in each. Any segment below 2 is a burnout risk — invest there."},
+     {name:"Scheduled Off Time",desc:"Block minimum 1 full day per week where you are not an athlete. Non-negotiable. Performance actually improves with genuine psychological rest."},
+     {name:"Values Clarification",desc:"Write 3 values that matter to you as a human — not an athlete. Check weekly: did you honour them? This builds meaning that survives loss, injury and retirement."},
+   ],tags:["Mental Health","Long-term"]},
+];
+
+const sentiments=[
+  {mood:"Frustrated",emoji:"😤",color:"var(--red)",tip:"Take a short walk or light stretch to release built-up tension."},
+  {mood:"Stressed",emoji:"😰",color:"var(--gold)",tip:"The 4-7-8 breathing technique will calm your nervous system fast."},
+  {mood:"Anxious",emoji:"😟",color:"#eab308",tip:"Write what you can control vs what you can't — focus only on the first list."},
+  {mood:"Determined",emoji:"💪",color:"var(--green)",tip:"Channel this fire into your next training block."},
+  {mood:"Reflective",emoji:"🤔",color:"var(--blue)",tip:"Your journal is open — process these thoughts in writing."},
+];
+
+/* NAVIGATION */
+let currentPage='home';
+  function nav(page){
+   window.scrollTo(0, 0); // add this
+  document.getElementById('page-'+currentPage).classList.remove('active');
+  document.getElementById('page-'+page).classList.add('active');
+  currentPage=page;
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+  if(page==='journal') initJournal();
+  if(page==='meditate') initSounds();
+  if(page==='learn') renderPlaybook('All');
+  stopBreathing();
+  if(page!=='meditate') stopSound();
+}
+
+/* JOURNAL */
+let currentPrompt=prompts[0];
+function initJournal(){newPrompt();renderPastEntries();}
+function newPrompt(){
+  currentPrompt=prompts[Math.floor(Math.random()*prompts.length)];
+  document.getElementById('journal-emoji').textContent=currentPrompt.emoji;
+  document.getElementById('journal-question').textContent=currentPrompt.q;
+  const ta=document.getElementById('journal-text');
+  if(ta){ta.value='';updateWordCount();}
+}
+function updateWordCount(){
+  const v=document.getElementById('journal-text').value.trim();
+  document.getElementById('word-count').textContent=v?v.split(/\s+/).length:0;
+}
+function saveJournal(){
+  const text=document.getElementById('journal-text').value.trim();
+  if(!text){alert('Please write something first!');return;}
+  const entries=JSON.parse(localStorage.getItem('lr_journal')||'[]');
+  entries.unshift({date:new Date().toISOString(),prompt:currentPrompt.q,text});
+  localStorage.setItem('lr_journal',JSON.stringify(entries));
+  document.getElementById('journal-text').value='';
+  updateWordCount();renderPastEntries();newPrompt();showToast('Entry saved ✓');
+}
+function renderPastEntries(){
+  const entries=JSON.parse(localStorage.getItem('lr_journal')||'[]');
+  const el=document.getElementById('past-entries');
+  if(!el)return;
+  if(!entries.length){el.innerHTML='<p style="color:var(--muted);font-size:13px">No entries yet.</p>';return;}
+  el.innerHTML=entries.slice(0,5).map(e=>`<div class="entry-item"><div class="ei-date">${new Date(e.date).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'})}</div><div class="ei-text">${e.text}</div></div>`).join('');
+}
+
+/* BREATHE */
+let breathActive=false,breathTech='box',breathCycles=0,breathStart=null,breathTO=[],breathInterval=null;
+const patterns={box:{inhale:4,hold1:4,exhale:4,hold2:4},'478':{inhale:4,hold1:7,exhale:8,hold2:0},calm:{inhale:4,hold1:0,exhale:6,hold2:0}};
+function selectTech(btn,key){breathTech=key;document.querySelectorAll('.tech-btn').forEach(b=>b.classList.remove('selected'));btn.classList.add('selected');document.getElementById('stat-streak').textContent=key.toUpperCase();}
+function startBreathing(){
+  stopBreathing();breathActive=true;breathCycles=0;breathStart=Date.now();
+  document.getElementById('stat-streak').textContent=breathTech.toUpperCase();
+  breathInterval=setInterval(()=>{const s=Math.floor((Date.now()-breathStart)/1000),m=Math.floor(s/60),sec=s%60;document.getElementById('stat-mins').textContent=`${m}:${sec.toString().padStart(2,'0')}`;document.getElementById('stat-cycles').textContent=breathCycles;},500);
+  doCycle();
+}
+function doCycle(){
+  if(!breathActive)return;
+  const p=patterns[breathTech],total=(p.inhale+p.hold1+p.exhale+p.hold2)*1000;
+  const ring=document.getElementById('progress-ring'),circ=2*Math.PI*120;
+  ring.style.strokeDasharray=circ;ring.style.strokeDashoffset=circ;ring.classList.add('active');
+  setPhase('INHALE','inhale');vibrate(80);
+  const t1=setTimeout(()=>{if(!breathActive)return;if(p.hold1){setPhase('HOLD','hold');vibrate(40);}else goExhale();},p.inhale*1000);
+  const t2=setTimeout(()=>{if(!breathActive)return;if(p.hold1)goExhale();},(p.inhale+p.hold1)*1000);
+  function goExhale(){setPhase('EXHALE','exhale');vibrate(80);}
+  const t3=setTimeout(()=>{if(!breathActive)return;if(p.hold2){setPhase('HOLD','hold');vibrate(40);}else endCycle();},(p.inhale+p.hold1+p.exhale)*1000);
+  const t4=setTimeout(()=>{if(breathActive)endCycle();},total);
+  breathTO=[t1,t2,t3,t4];
+  const start=Date.now();
+  function tickRing(){if(!breathActive)return;const frac=Math.min(1,(Date.now()-start)/total);ring.style.strokeDashoffset=circ*(1-frac);if(frac<1)requestAnimationFrame(tickRing);}
+  requestAnimationFrame(tickRing);
+}
+function endCycle(){breathCycles++;document.getElementById('stat-cycles').textContent=breathCycles;if(breathActive)setTimeout(doCycle,300);}
+function setPhase(label,cls){
+  const p=patterns[breathTech],secs=cls==='inhale'?p.inhale:cls==='exhale'?p.exhale:(cls==='hold'?p.hold1||p.hold2:0);
+  document.getElementById('breath-circle').className='breath-circle '+cls;
+  document.getElementById('breath-label').textContent=label;
+  document.getElementById('breath-count').textContent=secs+'s';
+}
+function stopBreathing(){
+  breathActive=false;breathTO.forEach(clearTimeout);breathTO=[];clearInterval(breathInterval);
+  const c=document.getElementById('breath-circle'),l=document.getElementById('breath-label'),cnt=document.getElementById('breath-count');
+  if(c)c.className='breath-circle';if(l)l.textContent='READY';if(cnt)cnt.textContent='—';
+  const ring=document.getElementById('progress-ring');
+  if(ring){ring.classList.remove('active');ring.style.strokeDashoffset=2*Math.PI*120;}
+}
+function vibrate(ms){if('vibrate' in navigator)navigator.vibrate(ms);}
+
+/* ============================================================
+   MEDITATE — AUDIO ENGINE
+   oscNodes  = AudioScheduledSourceNodes only (.stop() supported)
+   timerIds  = setTimeout IDs only (clearTimeout)
+   masterGain = fresh GainNode per session
+   ============================================================ */
+let audioCtx=null,oscNodes=[],timerIds=[],masterGain=null;
+let activeSound=null,soundTimer=null,timeLeft=0,volume=70,duration=10;
+
+function getCtx(){
+  if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  if(audioCtx.state==='suspended')audioCtx.resume();
+  return audioCtx;
+}
+
+function initSounds(){
+  const c=document.getElementById('sounds-container');
+  c.innerHTML=soundCategories.map(cat=>`<div class="cat-label">${cat.label}</div><div class="sounds-grid">${cat.sounds.map(s=>`<div class="sound-tile" id="tile-${s.name.replace(/\s/g,'_')}" onclick="toggleSound('${s.name}','${s.synth}','${s.icon}')"><span class="st-icon">${s.icon}</span><div class="st-name">${s.name}</div><div class="st-desc">${cat.label.split('  ')[1]}</div></div>`).join('')}</div>`).join('');
+}
+
+function updateVolume(v){
+  volume=v;document.getElementById('vol-val').textContent=v+'%';
+  if(masterGain)masterGain.gain.setTargetAtTime(v/100,getCtx().currentTime,0.1);
+}
+function updateDuration(v){duration=v;document.getElementById('dur-val').textContent=v+' min';}
+
+function toggleSound(name,synth,icon){
+  if(activeSound===name){stopSound();return;}
+  stopSound();
+  const ctx=getCtx();
+  masterGain=ctx.createGain();
+  masterGain.gain.setValueAtTime(0,ctx.currentTime);
+  masterGain.gain.linearRampToValueAtTime(volume/100,ctx.currentTime+1.0);
+  masterGain.connect(ctx.destination);
+  buildSynth(ctx,synth,masterGain);
+  activeSound=name;timeLeft=duration*60;
+  document.querySelectorAll('.sound-tile').forEach(t=>t.classList.remove('playing'));
+  const tile=document.getElementById('tile-'+name.replace(/\s/g,'_'));
+  if(tile)tile.classList.add('playing');
+  document.getElementById('np-name').textContent=name;
+  document.getElementById('np-icon').textContent=icon;
+  document.getElementById('now-playing').classList.add('visible');
+  clearInterval(soundTimer);updateNpTimer();
+  soundTimer=setInterval(()=>{timeLeft--;updateNpTimer();if(timeLeft<=0)stopSound();},1000);
+}
+
+function stopSound(){
+  if(masterGain&&audioCtx)masterGain.gain.setTargetAtTime(0,audioCtx.currentTime,0.2);
+  const toStop=[...oscNodes],toCancel=[...timerIds];
+  setTimeout(()=>{toStop.forEach(n=>{try{n.stop();}catch(e){}});toCancel.forEach(id=>clearTimeout(id));},500);
+  oscNodes=[];timerIds=[];
+  clearInterval(soundTimer);activeSound=null;
+  document.querySelectorAll('.sound-tile').forEach(t=>t.classList.remove('playing'));
+  const np=document.getElementById('now-playing');if(np)np.classList.remove('visible');
+}
+
+function updateNpTimer(){
+  const m=Math.floor(timeLeft/60),s=timeLeft%60;
+  document.getElementById('np-timer').textContent=`${m}:${s.toString().padStart(2,'0')} remaining`;
+}
+
+/* ── Noise buffer (4 second loop, properly clamped) ── */
+function makeNoiseBuf(ctx,type){
+  const sr=ctx.sampleRate,len=sr*4,buf=ctx.createBuffer(1,len,sr),d=buf.getChannelData(0);
+  if(type==='white'){for(let i=0;i<len;i++)d[i]=Math.random()*2-1;}
+  else if(type==='pink'){
+    let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+    for(let i=0;i<len;i++){const w=Math.random()*2-1;b0=.99886*b0+w*.0555179;b1=.99332*b1+w*.0750759;b2=.969*b2+w*.153852;b3=.8665*b3+w*.3104856;b4=.55*b4+w*.5329522;b5=-.7616*b5-w*.016898;d[i]=(b0+b1+b2+b3+b4+b5+b6+w*.5362)*.11;b6=w*.115926;}
+  } else {
+    let last=0;for(let i=0;i<len;i++){const w=Math.random()*2-1;d[i]=(last+0.02*w)/1.02;last=d[i];d[i]*=3.5;if(d[i]>1)d[i]=1;if(d[i]<-1)d[i]=-1;}
+  }
+  return buf;
+}
+
+/* Create looping noise source — tracked in oscNodes */
+function noiseNode(ctx,type){
+  const src=ctx.createBufferSource();src.buffer=makeNoiseBuf(ctx,type);src.loop=true;src.start();oscNodes.push(src);return src;
+}
+/* Create oscillator — tracked in oscNodes */
+function oscNode(ctx,type,freq){
+  const o=ctx.createOscillator();o.type=type;o.frequency.value=freq;o.start();oscNodes.push(o);return o;
+}
+
+function buildSynth(ctx, type, dest){
+  switch(type){
+    case 'rain':      buildRain(ctx, dest); break;
+    case 'ocean':     buildOcean(ctx, dest); break;
+    case 'forest':    buildForest(ctx, dest); break;
+    case 'thunder':   buildThunder(ctx, dest); break;
+
+    case 'white':     buildColorNoise(ctx, dest, 'white'); break;
+    case 'pink':      buildColorNoise(ctx, dest, 'pink'); break;
+    case 'brown':     buildColorNoise(ctx, dest, 'brown'); break;
+
+    case 'chimes':    buildChimes(ctx, dest); break;
+    case 'binaural':  buildBinaural(ctx, dest); break;
+    case 'bowl':      buildBowl(ctx, dest); break;
+    case 'om':        buildOm(ctx, dest); break;
+    case 'deepfocus': buildDeepFocus(ctx, dest); break;
+
+    default:
+      console.warn('Unknown sound type:', type);
+  }
+}
+
+/* RAIN */
+function buildRain(ctx,dest){
+  const body=noiseNode(ctx,'brown');
+  const bf=ctx.createBiquadFilter();bf.type='bandpass';bf.frequency.value=1000;bf.Q.value=0.5;
+  const bg=ctx.createGain();bg.gain.value=1.4;
+  body.connect(bf);bf.connect(bg);bg.connect(dest);
+  const lfo=oscNode(ctx,'sine',0.07);
+  const lg=ctx.createGain();lg.gain.value=0.3;lfo.connect(lg);lg.connect(bg.gain);
+
+  const drops=noiseNode(ctx,'white');
+  const df=ctx.createBiquadFilter();df.type='highpass';df.frequency.value=4500;
+  const dg=ctx.createGain();dg.gain.value=0.22;
+  drops.connect(df);df.connect(dg);dg.connect(dest);
+
+  const rumble=noiseNode(ctx,'brown');
+  const rf=ctx.createBiquadFilter();rf.type='lowpass';rf.frequency.value=180;
+  const rg=ctx.createGain();rg.gain.value=0.55;
+  rumble.connect(rf);rf.connect(rg);rg.connect(dest);
+}
+
+/* OCEAN */
+function buildOcean(ctx,dest){
+  function wave(speed,amp){
+    const n=noiseNode(ctx,'brown');
+    const f=ctx.createBiquadFilter();f.type='bandpass';f.frequency.value=350;f.Q.value=0.6;
+    const g=ctx.createGain();g.gain.value=amp;
+    n.connect(f);f.connect(g);g.connect(dest);
+    const lfo=oscNode(ctx,'sine',speed);
+    const lg=ctx.createGain();lg.gain.value=amp*0.65;lfo.connect(lg);lg.connect(g.gain);
+  }
+  wave(0.10,1.0);wave(0.17,0.55);
+  const foam=noiseNode(ctx,'white');
+  const ff=ctx.createBiquadFilter();ff.type='highpass';ff.frequency.value=5500;
+  const fg=ctx.createGain();fg.gain.value=0.06;foam.connect(ff);ff.connect(fg);fg.connect(dest);
+  const fl=oscNode(ctx,'sine',0.10);const flg=ctx.createGain();flg.gain.value=0.05;fl.connect(flg);flg.connect(fg.gain);
+}
+
+/* FOREST */
+function buildForest(ctx,dest){
+  const wind=noiseNode(ctx,'pink');
+  const wf=ctx.createBiquadFilter();wf.type='bandpass';wf.frequency.value=700;wf.Q.value=0.4;
+  const wg=ctx.createGain();wg.gain.value=0.55;wind.connect(wf);wf.connect(wg);wg.connect(dest);
+
+  const leaves=noiseNode(ctx,'pink');
+  const lf=ctx.createBiquadFilter();lf.type='highpass';lf.frequency.value=2800;
+  const lg=ctx.createGain();lg.gain.value=0.18;leaves.connect(lf);lf.connect(lg);lg.connect(dest);
+  const ll=oscNode(ctx,'sine',0.3);const llg=ctx.createGain();llg.gain.value=0.1;ll.connect(llg);llg.connect(lg.gain);
+
+  function chirp(){
+    if(!activeSound)return;
+    const now=ctx.currentTime,freq=2200+Math.random()*1600;
+    const o1=ctx.createOscillator(),e1=ctx.createGain();
+    o1.type='sine';o1.frequency.setValueAtTime(freq,now);o1.frequency.linearRampToValueAtTime(freq*1.12,now+0.07);
+    e1.gain.setValueAtTime(0,now);e1.gain.linearRampToValueAtTime(0.07,now+0.02);e1.gain.exponentialRampToValueAtTime(0.001,now+0.18);
+    o1.connect(e1);e1.connect(dest);o1.start(now);o1.stop(now+0.2);oscNodes.push(o1);
+    if(Math.random()>0.35){
+      const o2=ctx.createOscillator(),e2=ctx.createGain();
+      o2.type='sine';o2.frequency.value=freq*(0.88+Math.random()*0.28);
+      e2.gain.setValueAtTime(0,now+0.24);e2.gain.linearRampToValueAtTime(0.05,now+0.27);e2.gain.exponentialRampToValueAtTime(0.001,now+0.4);
+      o2.connect(e2);e2.connect(dest);o2.start(now+0.24);o2.stop(now+0.42);oscNodes.push(o2);
+    }
+    timerIds.push(setTimeout(chirp,1800+Math.random()*4200));
+  }
+  timerIds.push(setTimeout(chirp,700));
+}
+
+/* THUNDER */
+function buildThunder(ctx,dest){
+  buildRain(ctx,dest);
+  function boom(){
+    if(!activeSound)return;
+    const now=ctx.currentTime;
+    const n=noiseNode(ctx,'brown');
+    const f=ctx.createBiquadFilter();f.type='lowpass';f.frequency.value=180;
+    const env=ctx.createGain();
+    env.gain.setValueAtTime(0,now);env.gain.linearRampToValueAtTime(1.2,now+0.04);env.gain.exponentialRampToValueAtTime(0.001,now+3.8);
+    n.connect(f);f.connect(env);env.connect(dest);n.stop(now+4.5);
+    timerIds.push(setTimeout(boom,9000+Math.random()*14000));
+  }
+  timerIds.push(setTimeout(boom,2800));
+}
+
+/* WHITE / PINK / BROWN */
+function buildColorNoise(ctx,dest,type){
+  const n=noiseNode(ctx,type);
+  const f=ctx.createBiquadFilter();f.type='lowshelf';f.frequency.value=200;f.gain.value=-2;
+  n.connect(f);f.connect(dest);
+}
+
+/* WIND CHIMES */
+function buildChimes(ctx,dest){
+  const penta=[523.25,622.25,698.46,830.61,932.33,1046.5,1244.51];
+  function strike(){
+    if(!activeSound)return;
+    const now=ctx.currentTime,freq=penta[Math.floor(Math.random()*penta.length)];
+    const o=ctx.createOscillator(),e=ctx.createGain();
+    o.type='sine';o.frequency.value=freq;e.gain.setValueAtTime(0.14,now);e.gain.exponentialRampToValueAtTime(0.001,now+3.0);
+    o.connect(e);e.connect(dest);o.start(now);o.stop(now+3.2);oscNodes.push(o);
+    const o2=ctx.createOscillator(),e2=ctx.createGain();
+    o2.type='sine';o2.frequency.value=freq*2.8;e2.gain.setValueAtTime(0.045,now);e2.gain.exponentialRampToValueAtTime(0.001,now+1.4);
+    o2.connect(e2);e2.connect(dest);o2.start(now);o2.stop(now+1.5);oscNodes.push(o2);
+    const o3=ctx.createOscillator(),e3=ctx.createGain();
+    o3.type='sine';o3.frequency.value=freq*5.2;e3.gain.setValueAtTime(0.015,now);e3.gain.exponentialRampToValueAtTime(0.001,now+0.6);
+    o3.connect(e3);e3.connect(dest);o3.start(now);o3.stop(now+0.7);oscNodes.push(o3);
+    timerIds.push(setTimeout(strike,900+Math.random()*2800));
+  }
+  strike();
+  const bz=noiseNode(ctx,'white');const bzf=ctx.createBiquadFilter();bzf.type='highpass';bzf.frequency.value=7000;
+  const bzg=ctx.createGain();bzg.gain.value=0.03;bz.connect(bzf);bzf.connect(bzg);bzg.connect(dest);
+}
+
+/* BINAURAL — true stereo, 10Hz alpha beat */
+function buildBinaural(ctx,dest){
+  const merger=ctx.createChannelMerger(2);merger.connect(dest);
+  const L=ctx.createOscillator(),R=ctx.createOscillator();
+  L.type='sine';L.frequency.value=200;R.type='sine';R.frequency.value=210;
+  const lg=ctx.createGain();lg.gain.value=0.38;const rg=ctx.createGain();rg.gain.value=0.38;
+  L.connect(lg);R.connect(rg);lg.connect(merger,0,0);rg.connect(merger,0,1);
+  L.start();R.start();oscNodes.push(L,R);
+  const n=noiseNode(ctx,'brown');const nf=ctx.createBiquadFilter();nf.type='lowpass';nf.frequency.value=500;
+  const ng=ctx.createGain();ng.gain.value=0.07;n.connect(nf);nf.connect(ng);ng.connect(dest);
+}
+
+/* TIBETAN BOWL — 396Hz, inharmonic partials, periodic re-strikes */
+function buildBowl(ctx,dest){
+  function strike(){
+    if(!activeSound)return;
+    const now=ctx.currentTime;
+    [[1,0.55],[2.765,0.22],[5.404,0.09]].forEach(([r,a])=>{
+      const o=ctx.createOscillator(),e=ctx.createGain();
+      o.type='sine';o.frequency.value=396*r;e.gain.setValueAtTime(a,now);e.gain.exponentialRampToValueAtTime(0.001,now+7);
+      o.connect(e);e.connect(dest);o.start(now);o.stop(now+7.5);oscNodes.push(o);
+    });
+    timerIds.push(setTimeout(strike,6500+Math.random()*2500));
+  }
+  strike();
+}
+
+/* OM — 136.1Hz cosmic drone, 5 partials, tremolo */
+function buildOm(ctx,dest){
+  const root=136.1;
+  const mg=ctx.createGain();mg.connect(dest);
+  [[1,0.50],[2,0.28],[3,0.14],[4,0.07],[5,0.03]].forEach(([r,a])=>{
+    const o=oscNode(ctx,'sine',root*r);const g=ctx.createGain();g.gain.value=a;o.connect(g);g.connect(mg);
+  });
+  const trem=oscNode(ctx,'sine',0.2);const tg=ctx.createGain();tg.gain.value=0.06;trem.connect(tg);tg.connect(mg.gain);
+}
+
+/* DEEP FOCUS — 6Hz theta binaural + sub drone + pink noise */
+function buildDeepFocus(ctx,dest){
+  const merger=ctx.createChannelMerger(2);merger.connect(dest);
+  const L=ctx.createOscillator(),R=ctx.createOscillator();
+  L.type='sine';L.frequency.value=174;R.type='sine';R.frequency.value=180;
+  const lg=ctx.createGain();lg.gain.value=0.32;const rg=ctx.createGain();rg.gain.value=0.32;
+  L.connect(lg);R.connect(rg);lg.connect(merger,0,0);rg.connect(merger,0,1);
+  L.start();R.start();oscNodes.push(L,R);
+  const sub=oscNode(ctx,'sine',40);const sg=ctx.createGain();sg.gain.value=0.12;sub.connect(sg);sg.connect(dest);
+  const n=noiseNode(ctx,'pink');const nf=ctx.createBiquadFilter();nf.type='lowpass';nf.frequency.value=900;
+  const ng=ctx.createGain();ng.gain.value=0.07;n.connect(nf);nf.connect(ng);ng.connect(dest);
+}
+
+/* PLAYBOOK */
+function renderPlaybook(cat){
+  const list=cat==='All'?playbookCards:playbookCards.filter(c=>c.cat===cat);
+  document.getElementById('playbook-grid').innerHTML=list.map((c,i)=>`
+    <div class="pb-card" id="pb-${i}" onclick="togglePB(${i})">
+      <div class="pb-head">
+        <div class="pb-emoji">${c.emoji}</div>
+        <div class="pb-meta"><div class="pb-cat">${c.cat}</div><div class="pb-title">${c.title}</div></div>
+        <div class="pb-chevron">&#8964;</div>
+      </div>
+      <div class="pb-body">
+        <p>${c.summary}</p>
+        <div class="pb-techniques">${c.techniques.map(t=>`<div class="pb-technique"><div class="pt-name">&#8594; ${t.name}</div><div class="pt-desc">${t.desc}</div></div>`).join('')}</div>
+        <div style="margin-top:12px">${c.tags.map(t=>`<span class="pb-tag">&#127991; ${t}</span>`).join('')}</div>
+      </div>
+    </div>`).join('');
+}
+function togglePB(i){
+  const el=document.getElementById('pb-'+i);if(!el)return;
+  const was=el.classList.contains('open');
+  document.querySelectorAll('.pb-card').forEach(c=>c.classList.remove('open'));
+  if(!was)el.classList.add('open');
+}
+function filterPlaybook(cat,btn){
+  document.querySelectorAll('.fpill').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderPlaybook(cat);
+}
+
+/* VENT */
+let mediaRecorder=null,recTimer=null,recTime=120,ventAnalyser=null,ventAnimFrame=null,ventAudioCtx=null;
+function toggleRecording(){if(mediaRecorder&&mediaRecorder.state==='recording')stopRecording();else startRecording();}
+async function startRecording(){
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    mediaRecorder=new MediaRecorder(stream);
+    ventAudioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    const src=ventAudioCtx.createMediaStreamSource(stream);
+    ventAnalyser=ventAudioCtx.createAnalyser();ventAnalyser.fftSize=256;src.connect(ventAnalyser);
+    startWaveform();
+    document.getElementById('mic-btn').classList.add('recording');document.getElementById('mic-btn').textContent='⏹️';
+    document.getElementById('rec-status-wrap').classList.remove('hidden');
+    recTime=120;document.getElementById('rec-timer').textContent='2:00';
+    recTimer=setInterval(()=>{recTime--;const m=Math.floor(recTime/60),s=recTime%60;document.getElementById('rec-timer').textContent=`${m}:${s.toString().padStart(2,'0')}`;if(recTime<=0)stopRecording();},1000);
+    mediaRecorder.start();mediaRecorder.ondataavailable=()=>setTimeout(showSentiment,600);
+  }catch(e){alert('Microphone access required for this feature.');}
+}
+function stopRecording(){
+  if(mediaRecorder&&mediaRecorder.state==='recording'){mediaRecorder.stop();mediaRecorder.stream.getTracks().forEach(t=>t.stop());}
+  clearInterval(recTimer);cancelAnimationFrame(ventAnimFrame);
+  if(ventAudioCtx){ventAudioCtx.close();ventAudioCtx=null;}
+  document.getElementById('vent-canvas').classList.remove('active');
+  document.getElementById('mic-btn').classList.remove('recording');document.getElementById('mic-btn').textContent='🎤';
+  document.getElementById('rec-status-wrap').classList.add('hidden');
+}
+function startWaveform(){
+  const canvas=document.getElementById('vent-canvas');canvas.classList.add('active');
+  const ctx=canvas.getContext('2d'),W=canvas.width,H=canvas.height,bufLen=ventAnalyser.frequencyBinCount,data=new Uint8Array(bufLen);
+  function draw(){
+    ventAnimFrame=requestAnimationFrame(draw);ventAnalyser.getByteTimeDomainData(data);
+    ctx.clearRect(0,0,W,H);ctx.lineWidth=2;ctx.strokeStyle='#00e87a';ctx.shadowBlur=8;ctx.shadowColor='#00e87a';
+    ctx.beginPath();const sliceW=W/bufLen;let x=0;
+    for(let i=0;i<bufLen;i++){const v=data[i]/128,y=(v*H)/2;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);x+=sliceW;}
+    ctx.lineTo(W,H/2);ctx.stroke();
+  }
+  draw();
+}
+function showSentiment(){
+  const s=sentiments[Math.floor(Math.random()*sentiments.length)];
+  document.getElementById('sentiment-out').innerHTML=`<div class="sentiment-card"><span class="s-emoji">${s.emoji}</span><div class="s-mood" style="color:${s.color}">${s.mood}</div><div class="s-tip">&#128161; ${s.tip}</div><div class="s-note">&#128274; Audio permanently deleted. Only this summary was saved.</div></div>`;
+}
+
+function showToast(msg){
+  const t=document.createElement('div');t.textContent=msg;
+  Object.assign(t.style,{position:'fixed',bottom:'90px',left:'50%',transform:'translateX(-50%)',background:'var(--green)',color:'#000',fontWeight:'700',fontSize:'13px',padding:'10px 22px',borderRadius:'100px',zIndex:'9998',boxShadow:'0 8px 24px rgba(0,232,122,.4)',animation:'fadeUp .3s ease'});
+  document.body.appendChild(t);setTimeout(()=>t.remove(),2500);
+}
+
+initJournal();
+</script>
+</body>
+</html>
